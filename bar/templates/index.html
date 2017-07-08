@@ -1,0 +1,16 @@
+<html>
+<head></head>
+<body>
+    <h1>Articles</h1>
+
+    <ul>
+    {% for article in articles %}
+    <li>{{ article.title }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Futured Article</h2>
+    <p>#{{ article.id }} {{ article.title }}</p>
+    <p>{{ article.content }}</p>
+</body>
+</html>
