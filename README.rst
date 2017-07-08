@@ -13,10 +13,10 @@ Django Eraserhead
 
 Provide hints to optimize database usage by deferring unused fields
 
+.. image:: ./eraserhead.jpg
+
 Documentation
 -------------
-
-The full documentation is at https://django-eraserhead.readthedocs.io.
 
 Quickstart
 ----------
@@ -34,19 +34,6 @@ Add it to your `INSTALLED_APPS`:
         'eraserhead.apps.EraserheadConfig',
         ...
     )
-
-Add Django Eraserhead's URL patterns:
-
-.. code-block:: python
-
-    from eraserhead import urls as eraserhead_urls
-
-
-    urlpatterns = [
-        ...
-        url(r'^', include(eraserhead_urls)),
-        ...
-    ]
 
 Features
 --------
