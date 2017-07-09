@@ -5,7 +5,6 @@ pep8==1.7.0
 pylama==7.4.1
 tox>=1.7.0
 codecov>=2.0.0
-Django==1.11.3
 funcy==1.8
 py-term==0.6
 pytz==2017.2
