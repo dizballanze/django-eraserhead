@@ -33,9 +33,11 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sites",
-    "eraserhead.apps.EraserheadConfig",
+    # "eraserhead.apps.EraserheadConfig",
     "bar",
 ]
+
+ERASERHEAD_ENABLED = True
 
 TEMPLATES = [
     {
