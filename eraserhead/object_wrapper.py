@@ -16,4 +16,4 @@ class ObjectWrapper(wrapt.ObjectProxy):
 
     def get_fields_usage(self):
         deferred_fields = self.__wrapped__.get_deferred_fields()
-        return {k:v for k, v in self._fields.items() if k not in deferred_fields}
+        return {k: v for k, v in self._fields.items() if k not in deferred_fields}

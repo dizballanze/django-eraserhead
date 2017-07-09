@@ -1,9 +1,6 @@
 import traceback
 
-from django.db.models.query import QuerySet
 from django.db.models import query
-
-import wrapt
 import funcy
 
 from .object_wrapper import ObjectWrapper
