@@ -1,11 +1,10 @@
 coverage==4.3.4
 mock>=1.0.1
 flake8>=2.1.0
+pep8==1.7.0
+pylama==7.4.1
 tox>=1.7.0
 codecov>=2.0.0
-
-
-# Additional test requirements go here
 Django==1.11.3
 funcy==1.8
 py-term==0.6

@@ -1,5 +1,3 @@
-
-# Additional requirements go here
 Django==1.11.3
 funcy==1.8
 py-term==0.6
