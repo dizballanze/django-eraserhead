@@ -35,6 +35,8 @@ Add it to your `INSTALLED_APPS`:
         ...
     )
 
+    ERASERHEAD_ENABLED = True
+
 Features
 --------
 
