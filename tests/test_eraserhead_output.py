@@ -1,3 +1,4 @@
+# encoding: utf-8
 import sys
 import re
 try:
@@ -5,7 +6,7 @@ try:
 except ImportError:
     from io import StringIO
 
-from django.test import LiveServerTestCase, override_settings
+from django.test import TestCase, override_settings
 from django.apps import apps
 import term
 
@@ -24,17 +25,17 @@ def capture_stdout(command, *args, **kwargs):
         sys.stdout = out
 
 
-class EraserheadOutputTestCase(LiveServerTestCase):
+class EraserheadOutputTestCase(TestCase):
 
     """ Integration test """
 
     def setUp(self):
-        super().setUp()
+        super(EraserheadOutputTestCase, self).setUp()
         Article.objects.create(title='foobar', content=('spam ' * 10))
         Article.objects.create(title='barfoo', content=('spam ' * 10))
 
     def tearDown(self):
-        super().tearDown()
+        super(EraserheadOutputTestCase, self).tearDown()
         apps.clear_cache()
 
     @override_settings(INSTALLED_APPS=('eraserhead.apps.EraserheadConfig', 'bar'), ERASERHEAD_ENABLED=True)

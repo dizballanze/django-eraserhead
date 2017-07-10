@@ -1,4 +1,7 @@
-from unittest.mock import Mock
+try:
+    from unittest.mock import Mock
+except ImportError:
+    from mock import Mock
 
 from django.test import TestCase
 
@@ -8,7 +11,7 @@ from eraserhead.request_storage import RequestStorage
 class RequestStorageTestCase(TestCase):
 
     def setUp(self):
-        super().setUp()
+        super(RequestStorageTestCase, self).setUp()
         self.request_storage = RequestStorage()
         self.tb = Mock()
         self.queryset = Mock()

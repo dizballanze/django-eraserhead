@@ -6,7 +6,7 @@ from django.core.signals import request_started, request_finished
 class EraserheadConfigTestCase(TestCase):
 
     def tearDown(self):
-        super().tearDown()
+        super(EraserheadConfigTestCase, self).tearDown()
         apps.clear_cache()
 
     @override_settings(ERASERHEAD_ENABLED=False)
