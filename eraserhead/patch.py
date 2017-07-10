@@ -10,6 +10,7 @@ from .request_storage import RequestStorage
 current_request_storage = RequestStorage()
 
 
+@funcy.once
 def patch_queryset():
     """ Patch QuerySet """
 
