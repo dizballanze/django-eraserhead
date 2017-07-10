@@ -23,6 +23,8 @@ class RequestStorage(object):
         self.queryset_stats[id(queryset)]['wrapped_model_instances'].append(wrapped_instance)
 
     def get_defer_recommendations(self, used_fields, unused_fields):
+        if not len(used_fields):
+            return 'No fields were used. Consider to remove this request'
         if not len(unused_fields):
             return 'Nothing to do here ¯\_(ツ)_/¯'
         if len(used_fields) > len(unused_fields):

@@ -40,12 +40,6 @@ Features
 
 * TODO
 
-
-TODO
----
-
--  Django 1.8 support
-
 Running Tests
 -------------
 
