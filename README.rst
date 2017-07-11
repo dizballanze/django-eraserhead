@@ -36,16 +36,39 @@ Add it to your `INSTALLED_APPS`:
     )
 
     ERASERHEAD_ENABLED = True
+    ERASERHEAD_TRACEBACK_BASE_PATH = BASE_DIR
+
+
+Settings:
+
+* `ERASERHEAD_ENABLED` - enable/disable Django Eraserhead
+* `ERASERHEAD_TRACEBACK_BASE_PATH` - set base path to filter tracebacks. Set to `None` to display full traceback.
 
 Features
 --------
 
-* TODO
+.. image:: https://github.com/dizballanze/django-eraserhead/raw/master/screenshot.jpg
+
+Django Eraserhead monitors:
+
+* querysets/models fields usage (used and unused fields) with considering deferred fields
+* count of instances created for each queryset
+* corresponding model of each queryset
+* traceback for each queryset to easily find corresponding code
+
+Based on fields usage Django Eraserhead suggests optimizations for each queryset.
+
+
+TODO
+-----
+
+* calculate memory consumption of unused fields
+* decorator and/or context processor for partial stats collecting
+* detect deferred fields loading
+* auto deferring fields based on usage
 
 Running Tests
 -------------
-
-Does the code actually work?
 
 ::
 
