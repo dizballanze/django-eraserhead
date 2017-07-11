@@ -26,7 +26,7 @@ def capture_stdout(command, *args, **kwargs):
 
 
 def get_index_page(client, uri):
-    resp = client.get(uri)
+    client.get(uri)
 
 
 @override_settings(INSTALLED_APPS=('eraserhead.apps.EraserheadConfig', 'bar'), ERASERHEAD_ENABLED=True)
