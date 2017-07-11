@@ -1,5 +1,6 @@
 # encoding: utf-8
 import sys
+import os
 import re
 try:
     from cStringIO import StringIO
@@ -8,6 +9,7 @@ except ImportError:
 
 from django.test import TestCase, override_settings
 from django.apps import apps
+from django.conf import settings
 import term
 
 from bar.models import Article
@@ -69,3 +71,15 @@ class EraserheadOutputTestCase(TestCase):
         """ Should not output anything if there are no QuerySets in request """
         output = term.strip(capture_stdout(get_index_page, self.client, '/empty'))
         self.assertNotIn("ERASERHEAD STATS", output)
+
+    @override_settings(ERASERHEAD_TRACEBACK_BASE_PATH=None)
+    def test_unsetted_traceback_base_path(self):
+        """ Should display also Django frames """
+        output = term.strip(capture_stdout(get_index_page, self.client, '/'))
+        self.assertIn("django/core/management/commands/test.py", output)
+
+    @override_settings(ERASERHEAD_TRACEBACK_BASE_PATH=os.path.join(settings.BASE_DIR, 'bar'))
+    def test_setted_traceback_base_path(self):
+        """ Should display also Django frames """
+        output = term.strip(capture_stdout(get_index_page, self.client, '/'))
+        self.assertNotIn("django/core/management/commands/test.py", output)

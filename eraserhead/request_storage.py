@@ -56,8 +56,9 @@ class RequestStorage(object):
         self._print_traceback(tb)
 
     def _print_traceback(self, tb):
+        base_path = getattr(settings, 'ERASERHEAD_TRACEBACK_BASE_PATH', None)
         for trace_line in traceback.format_list(tb):
-            if hasattr(settings, 'BASE_DIR') and (settings.BASE_DIR not in trace_line):
+            if base_path and (base_path not in trace_line):
                 continue
             print("\t" + trace_line.strip().replace('\n', '\n\t'), end="\n")
 
