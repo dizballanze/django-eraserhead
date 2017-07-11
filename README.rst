@@ -15,6 +15,8 @@ Provide hints to optimize database usage by deferring unused fields
 
 .. image:: https://github.com/dizballanze/django-eraserhead/raw/master/eraserhead.jpg
 
+*WARNING* use this package only in dev environment!
+
 Documentation
 -------------
 
