@@ -40,6 +40,8 @@ class RequestStorage(object):
 
     def print_stats(self):
         """ Display statistics of current request """
+        if not self.queryset_stats:
+            return
         term.writeLine("\n\t ERASERHEAD STATS \n", term.bold, term.reverse)
         for _, queryset_stats in self.queryset_stats.items():
             self._print_queryset_usage(

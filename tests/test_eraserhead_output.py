@@ -25,6 +25,11 @@ def capture_stdout(command, *args, **kwargs):
         sys.stdout = out
 
 
+def get_index_page(client, uri):
+    resp = client.get(uri)
+
+
+@override_settings(INSTALLED_APPS=('eraserhead.apps.EraserheadConfig', 'bar'), ERASERHEAD_ENABLED=True)
 class EraserheadOutputTestCase(TestCase):
 
     """ Integration test """
@@ -38,13 +43,9 @@ class EraserheadOutputTestCase(TestCase):
         super(EraserheadOutputTestCase, self).tearDown()
         apps.clear_cache()
 
-    @override_settings(INSTALLED_APPS=('eraserhead.apps.EraserheadConfig', 'bar'), ERASERHEAD_ENABLED=True)
     def test_eraserhead_output(self):
-        def get_index_page(client):
-            resp = client.get('/')
-            print(resp.content)
-        output = term.strip(capture_stdout(get_index_page, self.client))
-        self.assertIn("ERASERHEAD STATS", output)
+        """ Should display QuerySets information """
+        output = term.strip(capture_stdout(get_index_page, self.client, '/'))
         self.assertIn("ERASERHEAD STATS", output)
         self.assertEqual(output.count("QuerySet #"), 2)
         # First QS
@@ -52,7 +53,7 @@ class EraserheadOutputTestCase(TestCase):
         self.assertIn('Used fields: title\n', output)
         self.assertTrue(re.search('Unused\sfields\:\s(content|id),\s(content|id)\n', output))
         self.assertIn("Recommendations:  Model.objects.only('title')\n", output)
-        self.assertIn('bar/views.py", line 6', output)
+        self.assertIn('bar/views.py", line 7', output)
         self.assertIn('articles = list(Article.objects.all())', output)
         # Second QS
         self.assertIn('Instances created: 1\n', output)
@@ -60,5 +61,10 @@ class EraserheadOutputTestCase(TestCase):
             re.search('Used\sfields\:\s(content|id|title),\s(content|id|title),\s(content|id|title)\n', output))
         self.assertIn('Unused fields: \n', output)
         self.assertIn("Recommendations:  Nothing to do here ¯\_(ツ)_/¯\n", output)
-        self.assertIn('bar/views.py", line 7', output)
+        self.assertIn('bar/views.py", line 8', output)
         self.assertIn("article = Article.objects.get(title='foobar')", output)
+
+    def test_output_nothing_if_no_querysets(self):
+        """ Should not output anything if there are no QuerySets in request """
+        output = term.strip(capture_stdout(get_index_page, self.client, '/empty'))
+        self.assertNotIn("ERASERHEAD STATS", output)
