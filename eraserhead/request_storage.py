@@ -51,6 +51,7 @@ class RequestStorage(object):
     def _print_queryset_usage(self, queryset, tb, wrapped_model_instances):
         term.writeLine("\n\tQuerySet #{}".format(id(queryset)), term.bold)
         self._print_named_value("Instances created", len(wrapped_model_instances))
+        self._print_named_value("Model", queryset.model()._meta.object_name)
         self._print_fields_usage(wrapped_model_instances)
         self._print_traceback(tb)
 

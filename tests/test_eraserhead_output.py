@@ -48,6 +48,7 @@ class EraserheadOutputTestCase(TestCase):
         output = term.strip(capture_stdout(get_index_page, self.client, '/'))
         self.assertIn("ERASERHEAD STATS", output)
         self.assertEqual(output.count("QuerySet #"), 2)
+        self.assertEqual(output.count("Model: Article"), 2)
         # First QS
         self.assertIn('Instances created: 2\n', output)
         self.assertIn('Used fields: title\n', output)
