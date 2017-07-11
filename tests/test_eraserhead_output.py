@@ -76,10 +76,10 @@ class EraserheadOutputTestCase(TestCase):
     def test_unsetted_traceback_base_path(self):
         """ Should display also Django frames """
         output = term.strip(capture_stdout(get_index_page, self.client, '/'))
-        self.assertIn("django/core/management/commands/test.py", output)
+        self.assertIn("django/test/runner.py", output)
 
     @override_settings(ERASERHEAD_TRACEBACK_BASE_PATH=os.path.join(settings.BASE_DIR, 'bar'))
     def test_setted_traceback_base_path(self):
         """ Should display also Django frames """
         output = term.strip(capture_stdout(get_index_page, self.client, '/'))
-        self.assertNotIn("django/core/management/commands/test.py", output)
+        self.assertNotIn("django/test/runner.py", output)
