@@ -55,7 +55,11 @@ setup(
         'eraserhead',
     ],
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'funcy==1.8',
+        'py-term==0.6',
+        'wrapt==1.10.10',
+    ],
     license="MIT",
     zip_safe=False,
     keywords='django-eraserhead',
