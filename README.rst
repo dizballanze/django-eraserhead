@@ -13,7 +13,7 @@ Django Eraserhead
 
 Provide hints to optimize database usage by deferring unused fields
 
-.. image:: ./eraserhead.jpg
+.. image:: https://github.com/dizballanze/django-eraserhead/raw/master/eraserhead.jpg
 
 Documentation
 -------------
