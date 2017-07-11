@@ -18,6 +18,12 @@ Provide hints to optimize database usage by deferring unused fields
 Documentation
 -------------
 
+Requirements
+-----------
+
+* Django 1.9+
+* Python 2.7, 3.4+
+
 Quickstart
 ----------
 
@@ -47,7 +53,7 @@ Settings:
 Features
 --------
 
-.. image:: https://github.com/dizballanze/django-eraserhead/raw/master/screenshot.jpg
+.. image:: https://github.com/dizballanze/django-eraserhead/raw/master/screenshot.png
 
 Django Eraserhead monitors:
 
