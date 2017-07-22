@@ -74,6 +74,7 @@ TODO
 * decorator and/or context processor for partial stats collecting
 * detect deferred fields loading
 * auto deferring fields based on usage
+* display deferred fields
 
 Running Tests
 -------------

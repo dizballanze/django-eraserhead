@@ -3,8 +3,9 @@ import traceback
 from django.db.models import query
 import funcy
 
-from .object_wrapper import ObjectWrapper
-from .request_storage import RequestStorage
+from eraserhead.model_instance_wrapper import ModelInstanceWrapper
+from eraserhead.request_storage import RequestStorage
+from eraserhead.queryset_storage import QuerySetStorage
 
 
 current_request_storage = RequestStorage()
@@ -18,11 +19,12 @@ def patch_queryset():
     @funcy.monkey(query.ModelIterable)
     def __iter__(self):
         tb = traceback.extract_stack()
-        current_request_storage.add_queryset_instance(self.queryset, tb)
+        queryset_storage = QuerySetStorage(self.queryset, tb)
+        current_request_storage.add_queryset_storage_instance(queryset_storage)
         iterator = __iter__.original(self)
         for model_instance in iterator:
-            wrapped_model_instance = ObjectWrapper(model_instance)
-            current_request_storage.add_queryset_model_instance(self.queryset, wrapped_model_instance)
+            wrapped_model_instance = ModelInstanceWrapper(model_instance)
+            queryset_storage.add_wrapped_model_instance(wrapped_model_instance)
             yield wrapped_model_instance
 
 
