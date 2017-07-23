@@ -1,3 +1,5 @@
+import sys
+
 import wrapt
 
 
@@ -25,3 +27,10 @@ class ModelInstanceWrapper(wrapt.ObjectProxy):
     def eraserhead_unused_fields(self):
         deferred_fields = self.__wrapped__.get_deferred_fields()
         return {name for name, usage in self._fields.items() if (name not in deferred_fields) and not usage}
+
+    @property
+    def eraserhead_unused_fields_size(self):
+        total_size = 0
+        for field in self.eraserhead_unused_fields:
+            total_size += sys.getsizeof(getattr(self.__wrapped__, field))
+        return total_size

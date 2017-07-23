@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sites",
-    # "eraserhead.apps.EraserheadConfig",
     "bar",
 ]
 
@@ -49,3 +48,13 @@ if django.VERSION >= (1, 10):
     MIDDLEWARE = ()
 else:
     MIDDLEWARE_CLASSES = ()
+
+if 'RUNSERVER' in os.environ:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": "eraserhead.db3",
+        }
+    }
+
+    INSTALLED_APPS += ("eraserhead.apps.EraserheadConfig",)

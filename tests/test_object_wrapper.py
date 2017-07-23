@@ -1,3 +1,4 @@
+import sys
 try:
     from unittest.mock import Mock
 except ImportError:
@@ -47,3 +48,12 @@ class ModelInstanceWrapperTestCase(TestCase):
         self.wrapper.field3
         self.wrapper.not_a_field
         self.assertEqual(set(self.wrapper.eraserhead_used_fields), {'field1', 'field3'})
+
+    def test_unused_fields_size(self):
+        """ Should return correct size of unused fields values """
+        self.model_instance_mock.field2 = 'foobar'
+        self.model_instance_mock.field4 = 'spam' * 10
+        expected_size = sys.getsizeof('foobar') + sys.getsizeof('spam' * 10)
+        self.wrapper.field1
+        self.wrapper.field3
+        self.assertEqual(self.wrapper.eraserhead_unused_fields_size, expected_size)
