@@ -20,13 +20,11 @@ class ModelInstanceWrapper(wrapt.ObjectProxy):
 
     @property
     def eraserhead_used_fields(self):
-        deferred_fields = self.__wrapped__.get_deferred_fields()
-        return {name for name, usage in self._fields.items() if (name not in deferred_fields) and (usage > 0)}
+        return self._eraserhead_filtered_fields_list(lambda usage: usage > 0)
 
     @property
     def eraserhead_unused_fields(self):
-        deferred_fields = self.__wrapped__.get_deferred_fields()
-        return {name for name, usage in self._fields.items() if (name not in deferred_fields) and not usage}
+        return self._eraserhead_filtered_fields_list(lambda usage: not usage)
 
     @property
     def eraserhead_unused_fields_size(self):
@@ -34,3 +32,7 @@ class ModelInstanceWrapper(wrapt.ObjectProxy):
         for field in self.eraserhead_unused_fields:
             total_size += sys.getsizeof(getattr(self.__wrapped__, field))
         return total_size
+
+    def _eraserhead_filtered_fields_list(self, condition):
+        deferred_fields = self.__wrapped__.get_deferred_fields()
+        return {name for name, usage in self._fields.items() if (name not in deferred_fields) and condition(usage)}
