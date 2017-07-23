@@ -24,7 +24,7 @@ class QuerySetStorage(object):
     @property
     def model_name(self):
         return self._queryset.model()._meta.object_name
-    
+
     @property
     def queryset_id(self):
         return id(self._queryset)
