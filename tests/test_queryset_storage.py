@@ -35,6 +35,42 @@ class QuerySetStorageTestCase(TestCase):
         qs_storage = QuerySetStorage(queryset_mock, Mock())
         self.assertEqual(qs_storage.queryset_id, id(queryset_mock))
 
+    def test_total_used_fields(self):
+        """ Should return all fields which were used at least once """
+        queryset_mock = Mock()
+        qs_storage = QuerySetStorage(queryset_mock, Mock())
+        wrapped_instance1 = Mock()
+        wrapped_instance1.eraserhead_used_fields = {'field1', 'field2'}
+        wrapped_instance2 = Mock()
+        wrapped_instance2.eraserhead_used_fields = {'field2', 'field3'}
+        qs_storage.add_wrapped_model_instance(wrapped_instance1)
+        qs_storage.add_wrapped_model_instance(wrapped_instance2)
+        self.assertEqual(qs_storage.total_used_fields, {'field1', 'field2', 'field3'})
+
+    def test_total_unused_fields(self):
+        """ Should return all fields which weren't used at all """
+        queryset_mock = Mock()
+        qs_storage = QuerySetStorage(queryset_mock, Mock())
+        wrapped_instance1 = Mock()
+        wrapped_instance1.eraserhead_unused_fields = {'field1', 'field2', 'field3'}
+        wrapped_instance2 = Mock()
+        wrapped_instance2.eraserhead_unused_fields = {'field2', 'field3'}
+        qs_storage.add_wrapped_model_instance(wrapped_instance1)
+        qs_storage.add_wrapped_model_instance(wrapped_instance2)
+        self.assertEqual(qs_storage.total_unused_fields, {'field2', 'field3'})
+
+    def test_total_wasted_memory(self):
+        """ Should return total wasted memory of all instances """
+        queryset_mock = Mock()
+        qs_storage = QuerySetStorage(queryset_mock, Mock())
+        wrapped_instance1 = Mock()
+        wrapped_instance1.eraserhead_unused_fields_size = 100
+        wrapped_instance2 = Mock()
+        wrapped_instance2.eraserhead_unused_fields_size = 144
+        qs_storage.add_wrapped_model_instance(wrapped_instance1)
+        qs_storage.add_wrapped_model_instance(wrapped_instance2)
+        self.assertEqual(qs_storage.total_wasted_memory, 244)
+
 
 class QuerySetStorageRecommendationsTestCase(TestCase):
 

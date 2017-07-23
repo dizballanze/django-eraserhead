@@ -30,6 +30,30 @@ class QuerySetStorage(object):
     def queryset_id(self):
         return id(self._queryset)
 
+    @property
+    def total_used_fields(self):
+        used_fields = set()
+        for wrapped_instance in self._wrapped_model_instances:
+            used_fields |= wrapped_instance.eraserhead_used_fields
+        return used_fields
+
+    @property
+    def total_unused_fields(self):
+        unused_fields = None
+        for wrapped_instance in self._wrapped_model_instances:
+            if unused_fields is None:
+                unused_fields = wrapped_instance.eraserhead_unused_fields
+                continue
+            unused_fields &= wrapped_instance.eraserhead_unused_fields
+        return unused_fields
+
+    @property
+    def total_wasted_memory(self):
+        wasted_memory = 0
+        for wrapped_instance in self._wrapped_model_instances:
+            wasted_memory += wrapped_instance.eraserhead_unused_fields_size
+        return wasted_memory
+
     def get_defer_recommendations(self, used_fields, unused_fields):
         if not len(used_fields):
             return 'No fields were used. Consider to remove this request'
@@ -59,19 +83,12 @@ class QuerySetStorage(object):
             print("\t" + trace_line.strip().replace('\n', '\n\t'))
 
     def _print_fields_usage(self, wrapped_model_instances):
-        used_fields = set()
-        all_fields = set()
-        wasted_memory = 0
-        for instance in wrapped_model_instances:
-            used_fields = used_fields | instance.eraserhead_used_fields
-            all_fields = instance.eraserhead_used_fields | instance.eraserhead_unused_fields
-            wasted_memory += instance.eraserhead_unused_fields_size
-        unused_fields = all_fields - used_fields
-        self._print_named_value('Used fields', ', '.join(used_fields))
-        self._print_named_value('Unused fields', ', '.join(unused_fields))
-        self._print_named_value('Wasted memory', humanfriendly.format_size(wasted_memory))
+        self._print_named_value('Used fields', ', '.join(self.total_used_fields))
+        self._print_named_value('Unused fields', ', '.join(self.total_unused_fields))
+        self._print_named_value('Wasted memory', humanfriendly.format_size(self.total_wasted_memory))
         self._print_named_value(
-            'Recommendations', term.format(self.get_defer_recommendations(used_fields, unused_fields), term.reverse))
+            'Recommendations', term.format(
+                self.get_defer_recommendations(self.total_used_fields, self.total_unused_fields), term.reverse))
 
     def _print_named_value(self, label, value):
         term.write('\t')
