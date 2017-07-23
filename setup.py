@@ -59,6 +59,7 @@ setup(
         'funcy==1.8',
         'py-term==0.6',
         'wrapt==1.10.10',
+        'humanfriendly==4.4',
     ],
     license="MIT",
     zip_safe=False,

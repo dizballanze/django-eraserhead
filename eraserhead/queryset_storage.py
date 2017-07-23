@@ -3,6 +3,7 @@ import traceback
 
 from django.conf import settings
 import term
+import humanfriendly
 
 
 class QuerySetStorage(object):
@@ -60,12 +61,15 @@ class QuerySetStorage(object):
     def _print_fields_usage(self, wrapped_model_instances):
         used_fields = set()
         all_fields = set()
+        wasted_memory = 0
         for instance in wrapped_model_instances:
             used_fields = used_fields | instance.eraserhead_used_fields
             all_fields = instance.eraserhead_used_fields | instance.eraserhead_unused_fields
+            wasted_memory += instance.eraserhead_unused_fields_size
         unused_fields = all_fields - used_fields
         self._print_named_value('Used fields', ', '.join(used_fields))
         self._print_named_value('Unused fields', ', '.join(unused_fields))
+        self._print_named_value('Wasted memory', humanfriendly.format_size(wasted_memory))
         self._print_named_value(
             'Recommendations', term.format(self.get_defer_recommendations(used_fields, unused_fields), term.reverse))
 

@@ -3,3 +3,4 @@ funcy==1.8
 py-term==0.6
 pytz==2017.2
 wrapt==1.10.10
+humanfriendly==4.4
