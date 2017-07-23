@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 import term
+import humanfriendly
 
 
 class RequestStorage(object):
@@ -14,6 +15,13 @@ class RequestStorage(object):
     def add_queryset_storage_instance(self, queryset_storage):
         self.queryset_stats.append(queryset_storage)
 
+    @property
+    def total_wasted_memory(self):
+        wasted_memory = 0
+        for qs_storage in self.queryset_stats:
+            wasted_memory += qs_storage.total_wasted_memory
+        return wasted_memory
+
     # Stats print methods
 
     def print_stats(self):
@@ -23,4 +31,7 @@ class RequestStorage(object):
         term.writeLine("\n\t ERASERHEAD STATS \n", term.bold, term.reverse)
         for queryset_storage in self.queryset_stats:
             queryset_storage.print_stats()
+        print()
+        term.write("\t TOTAL WASTED MEMORY: ", term.bold, term.reverse)
+        term.write("  {}".format(humanfriendly.format_size(self.total_wasted_memory)), term.red)
         print()
