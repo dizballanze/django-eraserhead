@@ -1,3 +1,4 @@
+# encoding: utf-8
 import traceback
 
 from django.conf import settings
@@ -54,18 +55,15 @@ class QuerySetStorage(object):
         for trace_line in traceback.format_list(self._traceback):
             if base_path and (base_path not in trace_line):
                 continue
-            print("\t" + trace_line.strip().replace('\n', '\n\t'), end="\n")
+            print("\t" + trace_line.strip().replace('\n', '\n\t'))
 
     def _print_fields_usage(self, wrapped_model_instances):
-        fields = {}
+        used_fields = set()
+        all_fields = set()
         for instance in wrapped_model_instances:
-            for field_name, usage in instance.get_fields_usage().items():
-                if field_name not in fields:
-                    fields[field_name] = 0
-                fields[field_name] += usage
-        sorted_fields = sorted(fields.items(), key=lambda i: i[1], reverse=True)
-        used_fields = [f[0] for f in sorted_fields if f[1] > 0]
-        unused_fields = [f[0] for f in sorted_fields if not f[1]]
+            used_fields = used_fields | instance.eraserhead_used_fields
+            all_fields = instance.eraserhead_used_fields | instance.eraserhead_unused_fields
+        unused_fields = all_fields - used_fields
         self._print_named_value('Used fields', ', '.join(used_fields))
         self._print_named_value('Unused fields', ', '.join(unused_fields))
         self._print_named_value(

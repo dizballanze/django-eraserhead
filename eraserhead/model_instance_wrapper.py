@@ -14,16 +14,14 @@ class ModelInstanceWrapper(wrapt.ObjectProxy):
             self._fields[name] += 1
         return super(ModelInstanceWrapper, self).__getattr__(name)
 
-    def get_fields_usage(self):
-        deferred_fields = self.__wrapped__.get_deferred_fields()
-        return {k: v for k, v in self._fields.items() if k not in deferred_fields}
+    # Long methods names to avoid collisions with model instance method names
 
     @property
     def eraserhead_used_fields(self):
         deferred_fields = self.__wrapped__.get_deferred_fields()
-        return [name for name, usage in self._fields.items() if (name not in deferred_fields) and (usage > 0)]
+        return {name for name, usage in self._fields.items() if (name not in deferred_fields) and (usage > 0)}
 
     @property
     def eraserhead_unused_fields(self):
         deferred_fields = self.__wrapped__.get_deferred_fields()
-        return [name for name, usage in self._fields.items() if (name not in deferred_fields) and not usage]
+        return {name for name, usage in self._fields.items() if (name not in deferred_fields) and not usage}
