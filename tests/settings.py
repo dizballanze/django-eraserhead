@@ -58,3 +58,4 @@ if 'RUNSERVER' in os.environ:
     }
 
     INSTALLED_APPS += ("eraserhead.apps.EraserheadConfig",)
+    ERASERHEAD_TRACEBACK_BASE_PATH = os.path.join(BASE_DIR, 'bar')
