@@ -63,6 +63,7 @@ Django Eraserhead monitors:
 * count of instances created for each queryset
 * corresponding model of each queryset
 * traceback for each queryset to easily find corresponding code
+* calculate memory consumption of unused fields
 
 Based on fields usage Django Eraserhead suggests optimizations for each queryset.
 
@@ -70,7 +71,6 @@ Based on fields usage Django Eraserhead suggests optimizations for each queryset
 TODO
 -----
 
-* calculate memory consumption of unused fields
 * decorator and/or context processor for partial stats collecting
 * detect deferred fields loading
 * auto deferring fields based on usage
