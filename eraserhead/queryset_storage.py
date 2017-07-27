@@ -45,7 +45,7 @@ class QuerySetStorage(object):
                 unused_fields = wrapped_instance.eraserhead_unused_fields
                 continue
             unused_fields &= wrapped_instance.eraserhead_unused_fields
-        return unused_fields
+        return unused_fields or set()
 
     @property
     def total_wasted_memory(self):
