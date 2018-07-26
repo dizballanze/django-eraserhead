@@ -11,6 +11,9 @@ Django Eraserhead
 .. image:: https://codecov.io/gh/dizballanze/django-eraserhead/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/dizballanze/django-eraserhead
 
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
+    :target: https://saythanks.io/to/dizballanze
+
 Provide hints to optimize database usage by deferring unused fields
 
 .. image:: https://github.com/dizballanze/django-eraserhead/raw/master/eraserhead.jpg
