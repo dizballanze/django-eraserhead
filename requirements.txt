@@ -1,4 +1,4 @@
-Django==1.11.3
+Django==1.11.29
 funcy==1.8
 py-term==0.6
 pytz==2017.2
